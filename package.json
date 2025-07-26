@@ -1,0 +1,67 @@
+{
+  "name": "postman-mcp-server",
+  "version": "0.1.0",
+  "description": "A Model Context Protocol (MCP) server for Postman API integration, providing tools for workspace, collection, request, environment, and folder management",
+  "main": "build/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node build/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "format": "prettier --write src/**/*.ts",
+    "format:check": "prettier --check src/**/*.ts",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run test && npm run lint && npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "postman",
+    "api",
+    "server",
+    "tools",
+    "workspace",
+    "collection",
+    "environment"
+  ],
+  "author": "ankit-roy-0602",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ankit-roy-0602/postman-mcp-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ankit-roy-0602/postman-mcp-server/issues"
+  },
+  "homepage": "https://github.com/ankit-roy-0602/postman-mcp-server#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "build/**/*",
+    "README.md",
+    "LICENSE",
+    "package.json"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^0.6.0",
+    "axios": "^1.7.9",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.10.2",
+    "@typescript-eslint/eslint-plugin": "^8.18.2",
+    "@typescript-eslint/parser": "^8.18.2",
+    "eslint": "^9.18.0",
+    "jest": "^29.7.0",
+    "prettier": "^3.4.2",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.7.2"
+  }
+}
