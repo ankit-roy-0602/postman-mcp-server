@@ -6,20 +6,32 @@ const PostmanVariableSchema = z.object({
     description: z.string().optional().describe('Variable description'),
 });
 const ListEnvironmentsSchema = z.object({
-    workspaceId: z.string().optional().describe('Optional workspace ID to filter environments'),
+    workspaceId: z
+        .string()
+        .optional()
+        .describe('Optional workspace ID to filter environments'),
 });
 const GetEnvironmentSchema = z.object({
     environmentId: z.string().describe('The ID of the environment to retrieve'),
 });
 const CreateEnvironmentSchema = z.object({
     name: z.string().describe('Name of the environment'),
-    values: z.array(PostmanVariableSchema).optional().describe('Environment variables'),
-    workspaceId: z.string().optional().describe('Workspace ID where the environment will be created'),
+    values: z
+        .array(PostmanVariableSchema)
+        .optional()
+        .describe('Environment variables'),
+    workspaceId: z
+        .string()
+        .optional()
+        .describe('Workspace ID where the environment will be created'),
 });
 const UpdateEnvironmentSchema = z.object({
     environmentId: z.string().describe('The ID of the environment to update'),
     name: z.string().optional().describe('New name for the environment'),
-    values: z.array(PostmanVariableSchema).optional().describe('Updated environment variables'),
+    values: z
+        .array(PostmanVariableSchema)
+        .optional()
+        .describe('Updated environment variables'),
 });
 const DeleteEnvironmentSchema = z.object({
     environmentId: z.string().describe('The ID of the environment to delete'),
@@ -194,7 +206,7 @@ export async function handleEnvironmentTool(name, args, client) {
                         value: v.value,
                         ...(v.type && { type: v.type }),
                         ...(v.description && { description: v.description }),
-                    }))
+                    })),
                 }),
                 ...(parsed.workspaceId && { workspaceId: parsed.workspaceId }),
             };
@@ -219,7 +231,7 @@ export async function handleEnvironmentTool(name, args, client) {
                         value: v.value,
                         ...(v.type && { type: v.type }),
                         ...(v.description && { description: v.description }),
-                    }))
+                    })),
                 }),
             };
             const environment = await client.updateEnvironment(environmentId, updates);

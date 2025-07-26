@@ -45,31 +45,31 @@ A Model Context Protocol (MCP) server that provides comprehensive integration wi
 - A Postman account with API access
 - Postman API key
 
-### Install from npm
+### Install Globally via npm
 ```bash
 npm install -g postman-mcp-server
 ```
 
-### Install from source
-```bash
-git clone https://github.com/ankit-roy-0602/postman-mcp-server.git
-cd postman-mcp-server
-npm install
-npm run build
-```
+### Getting Your Postman API Key
 
-## Configuration
+1. Go to [Postman API Keys](https://web.postman.co/settings/me/api-keys)
+2. Click "Generate API Key"
+3. Give it a name and click "Generate API Key"
+4. Copy the generated key for use in your AI agent configuration
 
-### MCP Client Configuration
+## Configuration for AI Agents
 
-Add the server to your MCP client configuration file:
+After installing globally, you can configure the MCP server with various AI agents:
+
+### For Cline (VSCode Extension)
+
+Add to your Cline MCP settings or `cline_mcp_settings.json`:
 
 ```json
 {
   "mcpServers": {
     "postman": {
-      "command": "node",
-      "args": ["/path/to/postman-mcp-server/build/index.js"],
+      "command": "postman-mcp-server",
       "env": {
         "POSTMAN_API_KEY": "your-postman-api-key-here"
       }
@@ -78,12 +78,107 @@ Add the server to your MCP client configuration file:
 }
 ```
 
-### Getting Your Postman API Key
+### For Claude Desktop
 
-1. Go to [Postman API Keys](https://web.postman.co/settings/me/api-keys)
-2. Click "Generate API Key"
-3. Give it a name and click "Generate API Key"
-4. Copy the generated key and use it in your configuration
+Add to your Claude Desktop configuration file:
+
+**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+**Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "postman": {
+      "command": "postman-mcp-server",
+      "env": {
+        "POSTMAN_API_KEY": "your-postman-api-key-here"
+      }
+    }
+  }
+}
+```
+
+### For Cursor
+
+Add to your Cursor MCP configuration:
+
+```json
+{
+  "mcpServers": {
+    "postman": {
+      "command": "postman-mcp-server",
+      "env": {
+        "POSTMAN_API_KEY": "your-postman-api-key-here"
+      }
+    }
+  }
+}
+```
+
+### Alternative Configuration (if global install doesn't work)
+
+If the global command doesn't work, you can use the full path:
+
+```json
+{
+  "mcpServers": {
+    "postman": {
+      "command": "node",
+      "args": ["$(npm root -g)/postman-mcp-server/build/index.js"],
+      "env": {
+        "POSTMAN_API_KEY": "your-postman-api-key-here"
+      }
+    }
+  }
+}
+```
+
+### Environment Variable Setup
+
+You can also set the API key as an environment variable:
+
+```bash
+export POSTMAN_API_KEY="your-postman-api-key-here"
+```
+
+Then use the configuration without the env section:
+
+```json
+{
+  "mcpServers": {
+    "postman": {
+      "command": "postman-mcp-server"
+    }
+  }
+}
+```
+
+## Quick Start
+
+1. **Install the package globally:**
+   ```bash
+   npm install -g postman-mcp-server
+   ```
+
+2. **Get your Postman API key** from [Postman API Keys](https://web.postman.co/settings/me/api-keys)
+
+3. **Configure your AI agent** using one of the configurations above
+
+4. **Restart your AI agent** to load the new MCP server
+
+5. **Start using Postman tools** in your AI conversations!
+
+## Verification
+
+To verify the installation worked:
+
+```bash
+# Check if the command is available
+postman-mcp-server --help
+
+# Or check the global installation
+npm list -g postman-mcp-server
+```
 
 ## Available Tools
 

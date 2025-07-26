@@ -4,6 +4,9 @@
   "description": "A Model Context Protocol (MCP) server for Postman API integration, providing tools for workspace, collection, request, environment, and folder management",
   "main": "build/index.js",
   "type": "module",
+  "bin": {
+    "postman-mcp-server": "build/index.js"
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",

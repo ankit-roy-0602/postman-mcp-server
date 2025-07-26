@@ -11,7 +11,10 @@ const CreateWorkspaceSchema = z.object({
 const UpdateWorkspaceSchema = z.object({
     workspaceId: z.string().describe('The ID of the workspace to update'),
     name: z.string().optional().describe('New name for the workspace'),
-    description: z.string().optional().describe('New description for the workspace'),
+    description: z
+        .string()
+        .optional()
+        .describe('New description for the workspace'),
 });
 const DeleteWorkspaceSchema = z.object({
     workspaceId: z.string().describe('The ID of the workspace to delete'),
