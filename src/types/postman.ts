@@ -95,7 +95,7 @@ export interface PostmanRequest {
   };
   auth?: {
     type: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 
@@ -112,7 +112,7 @@ export interface PostmanCollectionDetail {
   variable?: PostmanVariable[];
   auth?: {
     type: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
 }
 
@@ -121,7 +121,7 @@ export interface PostmanApiResponse<T> {
   error?: {
     name: string;
     message: string;
-    details?: any;
+    details?: unknown;
   };
 }
 

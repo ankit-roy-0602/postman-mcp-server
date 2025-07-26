@@ -111,12 +111,12 @@ export const workspaceTools: Tool[] = [
 
 export async function handleWorkspaceTool(
   name: string,
-  args: any,
+  args: unknown,
   client: PostmanAPIClient
-): Promise<any> {
+): Promise<{ content: Array<{ type: string; text: string }> }> {
   switch (name) {
     case 'list_workspaces': {
-      const parsed = ListWorkspacesSchema.parse(args);
+      ListWorkspacesSchema.parse(args);
       const workspaces = await client.listWorkspaces();
       return {
         content: [

@@ -117,9 +117,9 @@ export const collectionTools: Tool[] = [
 
 export async function handleCollectionTool(
   name: string,
-  args: any,
+  args: unknown,
   client: PostmanAPIClient
-): Promise<any> {
+): Promise<{ content: Array<{ type: string; text: string }> }> {
   switch (name) {
     case 'list_collections': {
       const parsed = ListCollectionsSchema.parse(args);

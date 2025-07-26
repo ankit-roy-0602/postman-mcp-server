@@ -4,7 +4,6 @@ import {
   PostmanCollection,
   PostmanCollectionDetail,
   PostmanEnvironment,
-  PostmanApiResponse,
   CreateWorkspaceRequest,
   UpdateWorkspaceRequest,
   CreateCollectionRequest,
@@ -243,7 +242,7 @@ export class PostmanAPIClient {
   private handleError(error: unknown, message: string): Error {
     if (axios.isAxiosError(error)) {
       const status = error.response?.status;
-      const data = error.response?.data;
+      const data = error.response?.data as { error?: { message?: string } } | undefined;
       
       if (status === 401) {
         return new Error('Invalid or expired Postman API key');

@@ -103,7 +103,7 @@ export const workspaceTools = [
 export async function handleWorkspaceTool(name, args, client) {
     switch (name) {
         case 'list_workspaces': {
-            const parsed = ListWorkspacesSchema.parse(args);
+            ListWorkspacesSchema.parse(args);
             const workspaces = await client.listWorkspaces();
             return {
                 content: [

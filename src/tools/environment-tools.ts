@@ -170,9 +170,9 @@ export const environmentTools: Tool[] = [
 
 export async function handleEnvironmentTool(
   name: string,
-  args: any,
+  args: unknown,
   client: PostmanAPIClient
-): Promise<any> {
+): Promise<{ content: Array<{ type: string; text: string }> }> {
   switch (name) {
     case 'list_environments': {
       const parsed = ListEnvironmentsSchema.parse(args);
