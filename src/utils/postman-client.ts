@@ -86,7 +86,10 @@ export class PostmanAPIClient {
         });
       return response.data.workspace;
     } catch (error) {
-      throw this.handleError(error, `Failed to update workspace ${workspaceId}`);
+      throw this.handleError(
+        error,
+        `Failed to update workspace ${workspaceId}`
+      );
     }
   }
 
@@ -94,7 +97,10 @@ export class PostmanAPIClient {
     try {
       await this.client.delete(`/workspaces/${workspaceId}`);
     } catch (error) {
-      throw this.handleError(error, `Failed to delete workspace ${workspaceId}`);
+      throw this.handleError(
+        error,
+        `Failed to delete workspace ${workspaceId}`
+      );
     }
   }
 
@@ -159,7 +165,10 @@ export class PostmanAPIClient {
         });
       return response.data.collection;
     } catch (error) {
-      throw this.handleError(error, `Failed to update collection ${collectionId}`);
+      throw this.handleError(
+        error,
+        `Failed to update collection ${collectionId}`
+      );
     }
   }
 
@@ -167,7 +176,10 @@ export class PostmanAPIClient {
     try {
       await this.client.delete(`/collections/${collectionId}`);
     } catch (error) {
-      throw this.handleError(error, `Failed to delete collection ${collectionId}`);
+      throw this.handleError(
+        error,
+        `Failed to delete collection ${collectionId}`
+      );
     }
   }
 
@@ -191,7 +203,10 @@ export class PostmanAPIClient {
         await this.client.get(`/environments/${environmentId}`);
       return response.data.environment;
     } catch (error) {
-      throw this.handleError(error, `Failed to get environment ${environmentId}`);
+      throw this.handleError(
+        error,
+        `Failed to get environment ${environmentId}`
+      );
     }
   }
 
@@ -227,7 +242,10 @@ export class PostmanAPIClient {
         });
       return response.data.environment;
     } catch (error) {
-      throw this.handleError(error, `Failed to update environment ${environmentId}`);
+      throw this.handleError(
+        error,
+        `Failed to update environment ${environmentId}`
+      );
     }
   }
 
@@ -235,35 +253,40 @@ export class PostmanAPIClient {
     try {
       await this.client.delete(`/environments/${environmentId}`);
     } catch (error) {
-      throw this.handleError(error, `Failed to delete environment ${environmentId}`);
+      throw this.handleError(
+        error,
+        `Failed to delete environment ${environmentId}`
+      );
     }
   }
 
   private handleError(error: unknown, message: string): Error {
     if (axios.isAxiosError(error)) {
       const status = error.response?.status;
-      const data = error.response?.data as { error?: { message?: string } } | undefined;
-      
+      const data = error.response?.data as
+        | { error?: { message?: string } }
+        | undefined;
+
       if (status === 401) {
         return new Error('Invalid or expired Postman API key');
       }
-      
+
       if (status === 403) {
         return new Error('Insufficient permissions for this operation');
       }
-      
+
       if (status === 404) {
         return new Error('Resource not found');
       }
-      
+
       if (status === 429) {
         return new Error('Rate limit exceeded. Please try again later');
       }
-      
+
       const errorMessage = data?.error?.message || error.message;
       return new Error(`${message}: ${errorMessage}`);
     }
-    
+
     return new Error(`${message}: ${String(error)}`);
   }
 }

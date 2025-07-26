@@ -59,18 +59,20 @@ export interface PostmanRequest {
   id?: string;
   name: string;
   description?: string;
-  url: string | {
-    raw: string;
-    protocol?: string;
-    host?: string[];
-    port?: string;
-    path?: string[];
-    query?: Array<{
-      key: string;
-      value: string;
-      disabled?: boolean;
-    }>;
-  };
+  url:
+    | string
+    | {
+        raw: string;
+        protocol?: string;
+        host?: string[];
+        port?: string;
+        path?: string[];
+        query?: Array<{
+          key: string;
+          value: string;
+          disabled?: boolean;
+        }>;
+      };
   method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS';
   header?: Array<{
     key: string;

@@ -3,7 +3,10 @@ import { z } from 'zod';
 import { PostmanAPIClient } from '../utils/postman-client.js';
 
 const ListCollectionsSchema = z.object({
-  workspaceId: z.string().optional().describe('Optional workspace ID to filter collections'),
+  workspaceId: z
+    .string()
+    .optional()
+    .describe('Optional workspace ID to filter collections'),
 });
 
 const GetCollectionSchema = z.object({
@@ -13,13 +16,19 @@ const GetCollectionSchema = z.object({
 const CreateCollectionSchema = z.object({
   name: z.string().describe('Name of the collection'),
   description: z.string().optional().describe('Description of the collection'),
-  workspaceId: z.string().optional().describe('Workspace ID where the collection will be created'),
+  workspaceId: z
+    .string()
+    .optional()
+    .describe('Workspace ID where the collection will be created'),
 });
 
 const UpdateCollectionSchema = z.object({
   collectionId: z.string().describe('The ID of the collection to update'),
   name: z.string().optional().describe('New name for the collection'),
-  description: z.string().optional().describe('New description for the collection'),
+  description: z
+    .string()
+    .optional()
+    .describe('New description for the collection'),
 });
 
 const DeleteCollectionSchema = z.object({
@@ -43,7 +52,8 @@ export const collectionTools: Tool[] = [
   },
   {
     name: 'get_collection',
-    description: 'Get detailed information about a specific collection including its structure',
+    description:
+      'Get detailed information about a specific collection including its structure',
     inputSchema: {
       type: 'object',
       properties: {

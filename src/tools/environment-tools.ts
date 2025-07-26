@@ -10,7 +10,10 @@ const PostmanVariableSchema = z.object({
 });
 
 const ListEnvironmentsSchema = z.object({
-  workspaceId: z.string().optional().describe('Optional workspace ID to filter environments'),
+  workspaceId: z
+    .string()
+    .optional()
+    .describe('Optional workspace ID to filter environments'),
 });
 
 const GetEnvironmentSchema = z.object({
@@ -19,14 +22,23 @@ const GetEnvironmentSchema = z.object({
 
 const CreateEnvironmentSchema = z.object({
   name: z.string().describe('Name of the environment'),
-  values: z.array(PostmanVariableSchema).optional().describe('Environment variables'),
-  workspaceId: z.string().optional().describe('Workspace ID where the environment will be created'),
+  values: z
+    .array(PostmanVariableSchema)
+    .optional()
+    .describe('Environment variables'),
+  workspaceId: z
+    .string()
+    .optional()
+    .describe('Workspace ID where the environment will be created'),
 });
 
 const UpdateEnvironmentSchema = z.object({
   environmentId: z.string().describe('The ID of the environment to update'),
   name: z.string().optional().describe('New name for the environment'),
-  values: z.array(PostmanVariableSchema).optional().describe('Updated environment variables'),
+  values: z
+    .array(PostmanVariableSchema)
+    .optional()
+    .describe('Updated environment variables'),
 });
 
 const DeleteEnvironmentSchema = z.object({
@@ -50,7 +62,8 @@ export const environmentTools: Tool[] = [
   },
   {
     name: 'get_environment',
-    description: 'Get detailed information about a specific environment including variables',
+    description:
+      'Get detailed information about a specific environment including variables',
     inputSchema: {
       type: 'object',
       properties: {
@@ -204,13 +217,13 @@ export async function handleEnvironmentTool(
       const parsed = CreateEnvironmentSchema.parse(args);
       const environmentData = {
         name: parsed.name,
-        ...(parsed.values && { 
+        ...(parsed.values && {
           values: parsed.values.map(v => ({
             key: v.key,
             value: v.value,
             ...(v.type && { type: v.type }),
             ...(v.description && { description: v.description }),
-          }))
+          })),
         }),
         ...(parsed.workspaceId && { workspaceId: parsed.workspaceId }),
       };
@@ -230,16 +243,19 @@ export async function handleEnvironmentTool(
       const { environmentId, ...rest } = parsed;
       const updates = {
         ...(rest.name && { name: rest.name }),
-        ...(rest.values && { 
+        ...(rest.values && {
           values: rest.values.map(v => ({
             key: v.key,
             value: v.value,
             ...(v.type && { type: v.type }),
             ...(v.description && { description: v.description }),
-          }))
+          })),
         }),
       };
-      const environment = await client.updateEnvironment(environmentId, updates);
+      const environment = await client.updateEnvironment(
+        environmentId,
+        updates
+      );
       return {
         content: [
           {
