@@ -2,7 +2,8 @@
 
 > **Transform your AI conversations into powerful API workflows with seamless Postman integration**
 
-[![npm version](https://badge.fury.io/js/postman-mcp-server.svg)](https://badge.fury.io/js/postman-mcp-server)
+[![npm version](https://img.shields.io/npm/v/postman-mcp-server.svg)](https://www.npmjs.com/package/postman-mcp-server)
+[![npm downloads](https://img.shields.io/npm/dm/postman-mcp-server.svg)](https://www.npmjs.com/package/postman-mcp-server)
 [![CI](https://github.com/ankit-roy-0602/postman-mcp-server/workflows/CI/badge.svg)](https://github.com/ankit-roy-0602/postman-mcp-server/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
