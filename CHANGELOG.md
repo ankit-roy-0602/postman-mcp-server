@@ -36,7 +36,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **ADDED**: Socket.dev configuration for supply chain monitoring
 - **ADDED**: GitHub security setup guide for advanced features
 - **FIXED**: Security workflow compatibility with private repositories
+- **FIXED**: CI/CD pipeline startup validation for environments without API keys
 - **IMPROVED**: Enhanced CI/CD security practices
+- **IMPROVED**: Graceful handling of missing API keys in test/CI environments
 
 ### Documentation
 - **ENHANCED**: README with comprehensive security section

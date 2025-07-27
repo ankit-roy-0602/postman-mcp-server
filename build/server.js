@@ -11,7 +11,7 @@ export class PostmanMCPServer {
     constructor() {
         this.server = new Server({
             name: 'postman-mcp-server',
-            version: '0.1.0',
+            version: '0.1.2',
         }, {
             capabilities: {
                 tools: {},
@@ -20,9 +20,19 @@ export class PostmanMCPServer {
         // Initialize Postman client
         const apiKey = process.env['POSTMAN_API_KEY'];
         if (!apiKey) {
-            throw new Error('POSTMAN_API_KEY environment variable is required');
+            // In CI/test environments, we might not have an API key
+            if (process.env['CI'] || process.env['NODE_ENV'] === 'test') {
+                console.error('⚠️  Running in CI/test mode without Postman API key');
+                // Create a dummy client that will fail gracefully
+                this.postmanClient = new PostmanAPIClient('dummy-key-for-ci');
+            }
+            else {
+                throw new Error('POSTMAN_API_KEY environment variable is required');
+            }
         }
-        this.postmanClient = new PostmanAPIClient(apiKey);
+        else {
+            this.postmanClient = new PostmanAPIClient(apiKey);
+        }
         this.setupToolHandlers();
     }
     setupToolHandlers() {
@@ -69,15 +79,21 @@ export class PostmanMCPServer {
         });
     }
     async start() {
-        // Validate API connection on startup
-        try {
-            await this.postmanClient.validateConnection();
-            console.error('✅ Successfully connected to Postman API');
+        // Validate API connection on startup (skip in CI/test environments)
+        const isCI = process.env['CI'] || process.env['NODE_ENV'] === 'test';
+        if (!isCI) {
+            try {
+                await this.postmanClient.validateConnection();
+                console.error('✅ Successfully connected to Postman API');
+            }
+            catch (error) {
+                const errorMessage = error instanceof Error ? error.message : String(error);
+                console.error(`❌ Failed to connect to Postman API: ${errorMessage}`);
+                process.exit(1);
+            }
         }
-        catch (error) {
-            const errorMessage = error instanceof Error ? error.message : String(error);
-            console.error(`❌ Failed to connect to Postman API: ${errorMessage}`);
-            process.exit(1);
+        else {
+            console.error('⚠️  Skipping API validation in CI/test environment');
         }
         const transport = new StdioServerTransport();
         await this.server.connect(transport);

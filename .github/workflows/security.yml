@@ -13,6 +13,10 @@ jobs:
   security-audit:
     runs-on: ubuntu-latest
     
+    env:
+      CI: true
+      NODE_ENV: test
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -43,10 +47,17 @@ jobs:
       
     - name: Build project
       run: npm run build
+      
+    - name: Test server startup (CI mode)
+      run: timeout 10s node build/index.js --help || test $? = 124
 
   dependency-review:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
+    
+    env:
+      CI: true
+      NODE_ENV: test
     
     steps:
     - name: Checkout code
