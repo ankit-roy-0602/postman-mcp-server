@@ -1,6 +1,6 @@
 {
   "name": "postman-mcp-server",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A Model Context Protocol (MCP) server for Postman API integration, providing tools for workspace, collection, request, environment, and folder management",
   "main": "build/index.js",
   "type": "module",
@@ -101,5 +101,31 @@
     "prettier": "^3.6.2",
     "ts-jest": "^29.4.0",
     "typescript": "^5.8.3"
+  },
+  "overrides": {
+    "es-define-property": "npm:@socketregistry/es-define-property@^1",
+    "es-set-tostringtag": "npm:@socketregistry/es-set-tostringtag@^1",
+    "function-bind": "npm:@socketregistry/function-bind@^1",
+    "gopd": "npm:@socketregistry/gopd@^1",
+    "has-symbols": "npm:@socketregistry/has-symbols@^1",
+    "has-tostringtag": "npm:@socketregistry/has-tostringtag@^1",
+    "hasown": "npm:@socketregistry/hasown@^1",
+    "object-assign": "npm:@socketregistry/object-assign@^1",
+    "safe-buffer": "npm:@socketregistry/safe-buffer@^1",
+    "safer-buffer": "npm:@socketregistry/safer-buffer@^1",
+    "side-channel": "npm:@socketregistry/side-channel@^1"
+  },
+  "resolutions": {
+    "es-define-property": "npm:@socketregistry/es-define-property@^1",
+    "es-set-tostringtag": "npm:@socketregistry/es-set-tostringtag@^1",
+    "function-bind": "npm:@socketregistry/function-bind@^1",
+    "gopd": "npm:@socketregistry/gopd@^1",
+    "has-symbols": "npm:@socketregistry/has-symbols@^1",
+    "has-tostringtag": "npm:@socketregistry/has-tostringtag@^1",
+    "hasown": "npm:@socketregistry/hasown@^1",
+    "object-assign": "npm:@socketregistry/object-assign@^1",
+    "safe-buffer": "npm:@socketregistry/safe-buffer@^1",
+    "safer-buffer": "npm:@socketregistry/safer-buffer@^1",
+    "side-channel": "npm:@socketregistry/side-channel@^1"
   }
 }
