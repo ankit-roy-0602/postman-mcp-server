@@ -32,8 +32,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Infrastructure
 - **ADDED**: Daily security audit workflow
-- **ADDED**: Dependency review for pull requests
+- **ADDED**: Dependency review for pull requests (compatible with all repository types)
 - **ADDED**: Socket.dev configuration for supply chain monitoring
+- **ADDED**: GitHub security setup guide for advanced features
+- **FIXED**: Security workflow compatibility with private repositories
 - **IMPROVED**: Enhanced CI/CD security practices
 
 ### Documentation

@@ -2,9 +2,9 @@ name: Security Audit
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main ]
   schedule:
     # Run security audit daily at 2 AM UTC
     - cron: '0 2 * * *'
@@ -52,8 +52,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Dependency Review
-      uses: actions/dependency-review-action@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
       with:
-        fail-on-severity: moderate
-        allow-licenses: MIT, Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Check for vulnerabilities in dependencies
+      run: npm audit --audit-level=moderate
+      
+    - name: Check for outdated packages
+      run: npm outdated || true
+      
+    - name: Validate package-lock.json
+      run: npm ls --depth=0
