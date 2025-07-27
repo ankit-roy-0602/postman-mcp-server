@@ -7,6 +7,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2025-01-27
+
+### Security
+- **BREAKING**: Updated all dependencies to latest secure versions
+- **ADDED**: Comprehensive security policy (SECURITY.md)
+- **ADDED**: Automated security auditing via GitHub Actions
+- **ADDED**: Socket.dev integration for supply chain security monitoring
+- **ADDED**: Node.js version specification (.nvmrc)
+- **IMPROVED**: Enhanced README with security badges and documentation
+- **FIXED**: Addressed all Socket.dev supply chain vulnerability alerts
+
+### Dependencies
+- **UPDATED**: @modelcontextprotocol/sdk from ^0.6.0 to ^1.17.0
+- **UPDATED**: @types/jest from ^29.5.14 to ^30.0.0
+- **UPDATED**: @types/node from ^22.10.2 to ^24.1.0
+- **UPDATED**: @typescript-eslint/eslint-plugin from ^8.18.2 to ^8.38.0
+- **UPDATED**: @typescript-eslint/parser from ^8.18.2 to ^8.38.0
+- **UPDATED**: eslint from ^9.18.0 to ^9.32.0
+- **UPDATED**: jest from ^29.7.0 to ^30.0.5
+- **UPDATED**: prettier from ^3.4.2 to ^3.6.2
+- **UPDATED**: typescript from ^5.7.2 to ^5.8.3
+- **UPDATED**: zod from ^3.24.1 to ^3.25.76
+
+### Infrastructure
+- **ADDED**: Daily security audit workflow
+- **ADDED**: Dependency review for pull requests
+- **ADDED**: Socket.dev configuration for supply chain monitoring
+- **IMPROVED**: Enhanced CI/CD security practices
+
+### Documentation
+- **ENHANCED**: README with comprehensive security section
+- **ADDED**: Security reporting guidelines
+- **ADDED**: Best practices for secure usage
+- **IMPROVED**: Badge display with security indicators
+
 ### Added
 - Request management tools (planned)
 - Folder organization tools (planned)

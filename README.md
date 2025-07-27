@@ -5,7 +5,11 @@
 [![npm version](https://img.shields.io/npm/v/postman-mcp-server.svg)](https://www.npmjs.com/package/postman-mcp-server)
 [![npm downloads](https://img.shields.io/npm/dm/postman-mcp-server.svg)](https://www.npmjs.com/package/postman-mcp-server)
 [![CI](https://github.com/ankit-roy-0602/postman-mcp-server/workflows/CI/badge.svg)](https://github.com/ankit-roy-0602/postman-mcp-server/actions)
+[![Security Audit](https://github.com/ankit-roy-0602/postman-mcp-server/workflows/Security%20Audit/badge.svg)](https://github.com/ankit-roy-0602/postman-mcp-server/actions)
+[![Socket Badge](https://socket.dev/api/badge/npm/package/postman-mcp-server)](https://socket.dev/npm/package/postman-mcp-server)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-blue.svg)](https://www.typescriptlang.org/)
 
 **Stop switching between your AI assistant and Postman!** This Model Context Protocol (MCP) server brings the full power of Postman directly into your AI conversations with Cline, Claude Desktop, Cursor, and other MCP-compatible clients.
 
@@ -184,11 +188,37 @@ AI: *Adds status code checks, response validation, authentication tests, and err
 
 ## 🔒 Security & Best Practices
 
-- **🔐 Secure API Key Handling**: Environment variable storage
+### 🛡️ **Supply Chain Security**
+- **✅ Zero Known Vulnerabilities**: Regular security audits with npm audit
+- **🔍 Dependency Monitoring**: Automated vulnerability scanning via Socket.dev
+- **📦 Minimal Dependencies**: Only 3 production dependencies to reduce attack surface
+- **🔄 Regular Updates**: Automated dependency updates and security patches
+- **🏷️ Signed Releases**: All releases are signed and verified
+
+### 🔐 **API Security**
+- **🔑 Secure API Key Handling**: Environment variable storage only
 - **🛡️ Rate Limit Respect**: Built-in Postman API rate limiting
-- **✅ Input Validation**: Comprehensive request validation
-- **🔍 Error Handling**: Graceful failure management
-- **📝 Audit Logging**: Track all API operations
+- **✅ Input Validation**: Comprehensive request validation using Zod schemas
+- **🔍 Error Handling**: Graceful failure management without data leakage
+- **📝 Audit Logging**: Track all API operations for security monitoring
+
+### 🚨 **Security Reporting**
+Found a security vulnerability? Please see our [Security Policy](SECURITY.md) for responsible disclosure guidelines.
+
+### 🔧 **Security Configuration**
+```bash
+# Recommended: Use environment variables for API keys
+export POSTMAN_API_KEY="your-secure-api-key"
+
+# Never commit API keys to version control
+echo "POSTMAN_API_KEY=*" >> .gitignore
+```
+
+### 📊 **Security Monitoring**
+- **Automated Security Audits**: Daily vulnerability scans
+- **Dependency Health Checks**: Weekly dependency reviews
+- **Socket.dev Integration**: Real-time supply chain monitoring
+- **GitHub Security Advisories**: Automatic security notifications
 
 ## 🎨 Advanced Configuration
 
