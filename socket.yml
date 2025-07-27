@@ -1,0 +1,73 @@
+# Socket.dev configuration for supply chain security
+version: 1
+
+# Security policies
+policies:
+  # Block packages with known vulnerabilities
+  block_vulnerabilities: true
+  
+  # Block packages with suspicious behavior
+  block_suspicious: true
+  
+  # Allow specific risk categories that are acceptable for this project
+  allowed_risks:
+    - "Network access"  # Required for Postman API calls
+    - "Environment variable access"  # Required for API key configuration
+    - "Filesystem access"  # Required for MCP server operations
+  
+  # Block high-risk categories
+  blocked_risks:
+    - "Uses eval"
+    - "Debug access"
+    - "Unmaintained"
+  
+# Package allowlist for known safe packages
+allowlist:
+  - "@modelcontextprotocol/sdk"
+  - "axios"
+  - "zod"
+  - "typescript"
+  - "jest"
+  - "eslint"
+  - "prettier"
+
+# Monitoring settings
+monitoring:
+  # Enable real-time monitoring
+  enabled: true
+  
+  # Alert on new vulnerabilities
+  alert_on_vulnerabilities: true
+  
+  # Alert on policy violations
+  alert_on_policy_violations: true
+  
+  # Weekly dependency health reports
+  weekly_reports: true
+
+# Integration settings
+integrations:
+  github:
+    # Enable GitHub integration for PR checks
+    enabled: true
+    
+    # Block PRs with security issues
+    block_on_issues: true
+    
+    # Comment on PRs with security findings
+    comment_on_findings: true
+
+# Notification settings
+notifications:
+  # Slack webhook for security alerts (configure in Socket.dev dashboard)
+  slack:
+    enabled: false
+    
+  # Email notifications
+  email:
+    enabled: true
+    
+  # GitHub issues for security findings
+  github_issues:
+    enabled: true
+    labels: ["security", "dependencies"]
