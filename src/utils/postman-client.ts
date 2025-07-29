@@ -4,12 +4,18 @@ import {
   PostmanCollection,
   PostmanCollectionDetail,
   PostmanEnvironment,
+  PostmanRequest,
+  PostmanFolder,
   CreateWorkspaceRequest,
   UpdateWorkspaceRequest,
   CreateCollectionRequest,
   UpdateCollectionRequest,
   CreateEnvironmentRequest,
   UpdateEnvironmentRequest,
+  CreateRequestRequest,
+  UpdateRequestRequest,
+  CreateFolderRequest,
+  MoveRequestRequest,
 } from '../types/postman.js';
 
 export class PostmanAPIClient {
@@ -258,6 +264,340 @@ export class PostmanAPIClient {
         `Failed to delete environment ${environmentId}`
       );
     }
+  }
+
+  // Request Management
+  async createRequest(
+    collectionId: string,
+    request: CreateRequestRequest
+  ): Promise<PostmanRequest> {
+    try {
+      // First get the collection to modify its structure
+      const collection = await this.getCollection(collectionId);
+
+      const newRequest: PostmanRequest = {
+        name: request.name,
+        request: {
+          method: request.method,
+          header: request.headers || [],
+          url: {
+            raw: request.url,
+          },
+          ...(request.body && { body: request.body }),
+        },
+        ...(request.description && { description: request.description }),
+      };
+
+      // Add request to the appropriate location (folder or collection root)
+      if (request.folderId) {
+        // Find the folder and add the request to it
+        const folder = this.findFolderInCollection(
+          collection,
+          request.folderId
+        );
+        if (!folder) {
+          throw new Error(`Folder with ID ${request.folderId} not found`);
+        }
+        if (!folder.item) folder.item = [];
+        folder.item.push(newRequest);
+      } else {
+        // Add to collection root
+        collection.item.push(newRequest);
+      }
+
+      // Update the collection with the new request
+      await this.client.put(`/collections/${collectionId}`, { collection });
+
+      return newRequest;
+    } catch (error) {
+      throw this.handleError(error, 'Failed to create request');
+    }
+  }
+
+  async updateRequest(
+    collectionId: string,
+    requestId: string,
+    updates: UpdateRequestRequest
+  ): Promise<PostmanRequest> {
+    try {
+      const collection = await this.getCollection(collectionId);
+      const request = this.findRequestInCollection(collection, requestId);
+
+      if (!request) {
+        throw new Error(`Request with ID ${requestId} not found`);
+      }
+
+      // Update request properties
+      if (updates.name) request.name = updates.name;
+      if (updates.description) request.description = updates.description;
+      if (updates.method) request.request.method = updates.method;
+      if (updates.url) request.request.url = { raw: updates.url };
+      if (updates.headers) request.request.header = updates.headers;
+      if (updates.body) request.request.body = updates.body;
+
+      // Update the collection
+      await this.client.put(`/collections/${collectionId}`, { collection });
+
+      return request;
+    } catch (error) {
+      throw this.handleError(error, `Failed to update request ${requestId}`);
+    }
+  }
+
+  async deleteRequest(collectionId: string, requestId: string): Promise<void> {
+    try {
+      const collection = await this.getCollection(collectionId);
+      const removed = this.removeRequestFromCollection(collection, requestId);
+
+      if (!removed) {
+        throw new Error(`Request with ID ${requestId} not found`);
+      }
+
+      // Update the collection
+      await this.client.put(`/collections/${collectionId}`, { collection });
+    } catch (error) {
+      throw this.handleError(error, `Failed to delete request ${requestId}`);
+    }
+  }
+
+  async getRequest(
+    collectionId: string,
+    requestId: string
+  ): Promise<PostmanRequest> {
+    try {
+      const collection = await this.getCollection(collectionId);
+      const request = this.findRequestInCollection(collection, requestId);
+
+      if (!request) {
+        throw new Error(`Request with ID ${requestId} not found`);
+      }
+
+      return request;
+    } catch (error) {
+      throw this.handleError(error, `Failed to get request ${requestId}`);
+    }
+  }
+
+  // Folder Management
+  async createFolder(
+    collectionId: string,
+    folder: CreateFolderRequest
+  ): Promise<PostmanFolder> {
+    try {
+      const collection = await this.getCollection(collectionId);
+
+      const newFolder: PostmanFolder = {
+        name: folder.name,
+        ...(folder.description && { description: folder.description }),
+        item: [],
+      };
+
+      if (folder.parentFolderId) {
+        // Add to parent folder
+        const parentFolder = this.findFolderInCollection(
+          collection,
+          folder.parentFolderId
+        );
+        if (!parentFolder) {
+          throw new Error(
+            `Parent folder with ID ${folder.parentFolderId} not found`
+          );
+        }
+        if (!parentFolder.item) parentFolder.item = [];
+        parentFolder.item.push(newFolder);
+      } else {
+        // Add to collection root
+        collection.item.push(newFolder);
+      }
+
+      // Update the collection
+      await this.client.put(`/collections/${collectionId}`, { collection });
+
+      return newFolder;
+    } catch (error) {
+      throw this.handleError(error, 'Failed to create folder');
+    }
+  }
+
+  async updateFolder(
+    collectionId: string,
+    folderId: string,
+    updates: { name?: string; description?: string }
+  ): Promise<PostmanFolder> {
+    try {
+      const collection = await this.getCollection(collectionId);
+      const folder = this.findFolderInCollection(collection, folderId);
+
+      if (!folder) {
+        throw new Error(`Folder with ID ${folderId} not found`);
+      }
+
+      if (updates.name) folder.name = updates.name;
+      if (updates.description) folder.description = updates.description;
+
+      // Update the collection
+      await this.client.put(`/collections/${collectionId}`, { collection });
+
+      return folder;
+    } catch (error) {
+      throw this.handleError(error, `Failed to update folder ${folderId}`);
+    }
+  }
+
+  async deleteFolder(collectionId: string, folderId: string): Promise<void> {
+    try {
+      const collection = await this.getCollection(collectionId);
+      const removed = this.removeFolderFromCollection(collection, folderId);
+
+      if (!removed) {
+        throw new Error(`Folder with ID ${folderId} not found`);
+      }
+
+      // Update the collection
+      await this.client.put(`/collections/${collectionId}`, { collection });
+    } catch (error) {
+      throw this.handleError(error, `Failed to delete folder ${folderId}`);
+    }
+  }
+
+  async moveRequest(
+    collectionId: string,
+    moveRequest: MoveRequestRequest
+  ): Promise<void> {
+    try {
+      const collection = await this.getCollection(collectionId);
+
+      // Find and remove the request from its current location
+      const request = this.findRequestInCollection(
+        collection,
+        moveRequest.requestId
+      );
+      if (!request) {
+        throw new Error(`Request with ID ${moveRequest.requestId} not found`);
+      }
+
+      this.removeRequestFromCollection(collection, moveRequest.requestId);
+
+      // Add to new location
+      if (moveRequest.targetFolderId) {
+        const targetFolder = this.findFolderInCollection(
+          collection,
+          moveRequest.targetFolderId
+        );
+        if (!targetFolder) {
+          throw new Error(
+            `Target folder with ID ${moveRequest.targetFolderId} not found`
+          );
+        }
+        if (!targetFolder.item) targetFolder.item = [];
+        targetFolder.item.push(request);
+      } else {
+        // Move to collection root
+        collection.item.push(request);
+      }
+
+      // Update the collection
+      await this.client.put(`/collections/${collectionId}`, { collection });
+    } catch (error) {
+      throw this.handleError(error, 'Failed to move request');
+    }
+  }
+
+  // Helper methods for navigating collection structure
+  private findRequestInCollection(
+    collection: PostmanCollectionDetail,
+    requestId: string
+  ): PostmanRequest | null {
+    const findInItems = (
+      items: Array<PostmanRequest | PostmanFolder>
+    ): PostmanRequest | null => {
+      for (const item of items) {
+        if ('request' in item && item.id === requestId) {
+          return item;
+        }
+        if ('item' in item && !('request' in item)) {
+          const folder = item;
+          if (folder.item) {
+            const found = findInItems(folder.item);
+            if (found) return found;
+          }
+        }
+      }
+      return null;
+    };
+
+    return findInItems(collection.item);
+  }
+
+  private findFolderInCollection(
+    collection: PostmanCollectionDetail,
+    folderId: string
+  ): PostmanFolder | null {
+    const findInItems = (
+      items: Array<PostmanRequest | PostmanFolder>
+    ): PostmanFolder | null => {
+      for (const item of items) {
+        if ('item' in item && !('request' in item)) {
+          const folder = item;
+          if (folder.id === folderId) return folder;
+          if (folder.item) {
+            const found = findInItems(folder.item);
+            if (found) return found;
+          }
+        }
+      }
+      return null;
+    };
+
+    return findInItems(collection.item);
+  }
+
+  private removeRequestFromCollection(
+    collection: PostmanCollectionDetail,
+    requestId: string
+  ): boolean {
+    const removeFromItems = (
+      items: Array<PostmanRequest | PostmanFolder>
+    ): boolean => {
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (item && 'request' in item && item.id === requestId) {
+          items.splice(i, 1);
+          return true;
+        }
+        if (item && 'item' in item && !('request' in item)) {
+          const folder = item;
+          if (folder.item && removeFromItems(folder.item)) return true;
+        }
+      }
+      return false;
+    };
+
+    return removeFromItems(collection.item);
+  }
+
+  private removeFolderFromCollection(
+    collection: PostmanCollectionDetail,
+    folderId: string
+  ): boolean {
+    const removeFromItems = (
+      items: Array<PostmanRequest | PostmanFolder>
+    ): boolean => {
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (item && 'item' in item && !('request' in item)) {
+          const folder = item;
+          if (folder.id === folderId) {
+            items.splice(i, 1);
+            return true;
+          }
+          if (folder.item && removeFromItems(folder.item)) return true;
+        }
+      }
+      return false;
+    };
+
+    return removeFromItems(collection.item);
   }
 
   private handleError(error: unknown, message: string): Error {

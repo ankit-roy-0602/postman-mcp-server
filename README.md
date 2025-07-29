@@ -407,6 +407,130 @@ Remove environments
 
 </details>
 
+<details>
+<summary><strong>🔧 Request & Folder Management Tools</strong></summary>
+
+#### `create_request`
+Create new API requests with complete configuration
+```json
+{
+  "name": "create_request",
+  "arguments": {
+    "collectionId": "collection-id",
+    "name": "Create User",
+    "url": "https://api.example.com/users",
+    "method": "POST",
+    "description": "Create a new user account",
+    "headers": [
+      { "key": "Content-Type", "value": "application/json" },
+      { "key": "Authorization", "value": "Bearer {{token}}" }
+    ],
+    "body": {
+      "mode": "raw",
+      "raw": "{\"name\": \"John Doe\", \"email\": \"john@example.com\"}"
+    },
+    "folderId": "optional-folder-id"
+  }
+}
+```
+
+#### `get_request`
+Retrieve detailed request information
+```json
+{
+  "name": "get_request",
+  "arguments": {
+    "collectionId": "collection-id",
+    "requestId": "request-id"
+  }
+}
+```
+
+#### `update_request`
+Modify existing requests
+```json
+{
+  "name": "update_request",
+  "arguments": {
+    "collectionId": "collection-id",
+    "requestId": "request-id",
+    "name": "Updated Request Name",
+    "url": "https://api.example.com/v2/users",
+    "method": "PUT",
+    "headers": [
+      { "key": "Content-Type", "value": "application/json" }
+    ]
+  }
+}
+```
+
+#### `delete_request`
+Remove requests from collections
+```json
+{
+  "name": "delete_request",
+  "arguments": {
+    "collectionId": "collection-id",
+    "requestId": "request-id"
+  }
+}
+```
+
+#### `create_folder`
+Organize requests with folder structures
+```json
+{
+  "name": "create_folder",
+  "arguments": {
+    "collectionId": "collection-id",
+    "name": "User Management",
+    "description": "All user-related API endpoints",
+    "parentFolderId": "optional-parent-folder-id"
+  }
+}
+```
+
+#### `update_folder`
+Modify folder properties
+```json
+{
+  "name": "update_folder",
+  "arguments": {
+    "collectionId": "collection-id",
+    "folderId": "folder-id",
+    "name": "Updated Folder Name",
+    "description": "Updated description"
+  }
+}
+```
+
+#### `delete_folder`
+Remove folders and their contents
+```json
+{
+  "name": "delete_folder",
+  "arguments": {
+    "collectionId": "collection-id",
+    "folderId": "folder-id"
+  }
+}
+```
+
+#### `move_request`
+Reorganize requests between folders
+```json
+{
+  "name": "move_request",
+  "arguments": {
+    "collectionId": "collection-id",
+    "requestId": "request-id",
+    "targetFolderId": "target-folder-id"
+  }
+}
+```
+
+</details>
+
 ## 🛠️ Development
 
 ### Setup Development Environment
@@ -436,8 +560,13 @@ See our [Contributing Guide](CONTRIBUTING.md) for details.
 
 ## 📈 Roadmap
 
+### 🚀 **Recently Added**
+- [x] **Request & Folder Management**: Complete CRUD operations for requests and folders
+- [x] **Advanced Request Creation**: AI-powered request generation with headers, body, and authentication
+- [x] **Folder Organization**: Hierarchical folder structures for better API organization
+- [x] **Request Movement**: Move requests between folders and collections seamlessly
+
 ### 🚀 **Coming Soon**
-- [ ] **Request & Folder Management**: Complete CRUD operations for requests
 - [ ] **Mock Server Integration**: AI-powered mock server creation
 - [ ] **Collection Import/Export**: Seamless data migration tools
 - [ ] **Advanced Search**: Find anything across your Postman workspace
