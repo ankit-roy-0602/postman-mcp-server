@@ -50,10 +50,7 @@ export interface PostmanEnvironment {
     uid: string;
     isPublic: boolean;
 }
-export interface PostmanRequest {
-    id?: string;
-    name: string;
-    description?: string;
+export interface PostmanRequestDetails {
     url: string | {
         raw: string;
         protocol?: string;
@@ -70,28 +67,34 @@ export interface PostmanRequest {
     header?: Array<{
         key: string;
         value: string;
-        disabled?: boolean;
-        description?: string;
+        disabled?: boolean | undefined;
+        description?: string | undefined;
     }>;
     body?: {
         mode: 'raw' | 'formdata' | 'urlencoded' | 'binary' | 'graphql';
-        raw?: string;
+        raw?: string | undefined;
         formdata?: Array<{
             key: string;
             value: string;
-            type?: 'text' | 'file';
-            disabled?: boolean;
-        }>;
+            type?: 'text' | 'file' | undefined;
+            disabled?: boolean | undefined;
+        }> | undefined;
         urlencoded?: Array<{
             key: string;
             value: string;
-            disabled?: boolean;
-        }>;
+            disabled?: boolean | undefined;
+        }> | undefined;
     };
     auth?: {
         type: string;
         [key: string]: unknown;
     };
+}
+export interface PostmanRequest {
+    id?: string;
+    name: string;
+    description?: string;
+    request: PostmanRequestDetails;
 }
 export interface PostmanFolder {
     id?: string;
@@ -146,19 +149,19 @@ export interface UpdateEnvironmentRequest {
 export interface CreateRequestRequest {
     name: string;
     url: string;
-    method: PostmanRequest['method'];
+    method: PostmanRequestDetails['method'];
     description?: string;
-    headers?: PostmanRequest['header'];
-    body?: PostmanRequest['body'];
+    headers?: PostmanRequestDetails['header'];
+    body?: PostmanRequestDetails['body'];
     folderId?: string;
 }
 export interface UpdateRequestRequest {
     name?: string;
     url?: string;
-    method?: PostmanRequest['method'];
+    method?: PostmanRequestDetails['method'];
     description?: string;
-    headers?: PostmanRequest['header'];
-    body?: PostmanRequest['body'];
+    headers?: PostmanRequestDetails['header'];
+    body?: PostmanRequestDetails['body'];
 }
 export interface CreateFolderRequest {
     name: string;

@@ -1,4 +1,4 @@
-import { PostmanWorkspace, PostmanCollection, PostmanCollectionDetail, PostmanEnvironment, CreateWorkspaceRequest, UpdateWorkspaceRequest, CreateCollectionRequest, UpdateCollectionRequest, CreateEnvironmentRequest, UpdateEnvironmentRequest } from '../types/postman.js';
+import { PostmanWorkspace, PostmanCollection, PostmanCollectionDetail, PostmanEnvironment, PostmanRequest, PostmanFolder, CreateWorkspaceRequest, UpdateWorkspaceRequest, CreateCollectionRequest, UpdateCollectionRequest, CreateEnvironmentRequest, UpdateEnvironmentRequest, CreateRequestRequest, UpdateRequestRequest, CreateFolderRequest, MoveRequestRequest } from '../types/postman.js';
 export declare class PostmanAPIClient {
     private client;
     private apiKey;
@@ -19,6 +19,21 @@ export declare class PostmanAPIClient {
     createEnvironment(environment: CreateEnvironmentRequest): Promise<PostmanEnvironment>;
     updateEnvironment(environmentId: string, updates: UpdateEnvironmentRequest): Promise<PostmanEnvironment>;
     deleteEnvironment(environmentId: string): Promise<void>;
+    createRequest(collectionId: string, request: CreateRequestRequest): Promise<PostmanRequest>;
+    updateRequest(collectionId: string, requestId: string, updates: UpdateRequestRequest): Promise<PostmanRequest>;
+    deleteRequest(collectionId: string, requestId: string): Promise<void>;
+    getRequest(collectionId: string, requestId: string): Promise<PostmanRequest>;
+    createFolder(collectionId: string, folder: CreateFolderRequest): Promise<PostmanFolder>;
+    updateFolder(collectionId: string, folderId: string, updates: {
+        name?: string;
+        description?: string;
+    }): Promise<PostmanFolder>;
+    deleteFolder(collectionId: string, folderId: string): Promise<void>;
+    moveRequest(collectionId: string, moveRequest: MoveRequestRequest): Promise<void>;
+    private findRequestInCollection;
+    private findFolderInCollection;
+    private removeRequestFromCollection;
+    private removeFolderFromCollection;
     private handleError;
 }
 //# sourceMappingURL=postman-client.d.ts.map
