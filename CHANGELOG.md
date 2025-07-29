@@ -7,6 +7,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.4] - 2025-07-29
+
+### Added
+- **NEW**: Complete request and folder management tools
+  - `create_request` - Create new API requests with full configuration support
+  - `get_request` - Retrieve detailed request information
+  - `update_request` - Update existing request configurations
+  - `delete_request` - Remove requests from collections
+  - `create_folder` - Create organizational folders within collections
+  - `update_folder` - Update folder metadata and descriptions
+  - `delete_folder` - Remove folders from collections
+  - `move_request` - Move requests between folders or to collection root
+- **ENHANCED**: Request creation with comprehensive support for:
+  - All HTTP methods (GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS)
+  - Custom headers with descriptions and enable/disable toggles
+  - Multiple body types (raw, form-data, URL-encoded, binary, GraphQL)
+  - Environment variable integration ({{variable_name}} syntax)
+  - Request descriptions and metadata
+- **ENHANCED**: Folder organization capabilities:
+  - Nested folder support with parent-child relationships
+  - Folder descriptions and metadata
+  - Hierarchical request organization
+
+### Improved
+- **ENHANCED**: Collection structure handling with full request and folder hierarchy
+- **ENHANCED**: Error handling and validation for all new operations
+- **ENHANCED**: Type safety with comprehensive TypeScript interfaces
+- **ENHANCED**: Test coverage with 95 comprehensive unit tests
+- **IMPROVED**: Code formatting and linting compliance
+- **IMPROVED**: API client robustness and error handling
+
+### Fixed
+- **FIXED**: ESLint issues with unnecessary type assertions (7 fixes)
+- **FIXED**: Prettier formatting consistency across all source files
+- **FIXED**: TypeScript compilation warnings and type safety issues
+
+### Testing
+- **ADDED**: Comprehensive test suite for request and folder tools (19 tests each)
+- **ADDED**: Integration tests for all CRUD operations
+- **ADDED**: Error handling and edge case testing
+- **VERIFIED**: 100% test coverage for all tool modules
+- **VERIFIED**: Live API integration testing with real Postman workspace
+
+### Technical Details
+- **ENHANCED**: Postman API client with full request/folder support
+- **ENHANCED**: MCP tool registration and handler routing
+- **ENHANCED**: Input validation with Zod schemas for all new tools
+- **ENHANCED**: Response formatting and error handling consistency
+
 ## [0.1.2] - 2025-01-27
 
 ### Security
@@ -115,5 +164,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `jest` - Testing framework
 - `@types/*` - TypeScript type definitions
 
-[Unreleased]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.4...HEAD
+[0.1.4]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.3...v0.1.4
+[0.1.3]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.2...v0.1.3
+[0.1.2]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.0...v0.1.2
 [0.1.0]: https://github.com/ankit-roy-0602/postman-mcp-server/releases/tag/v0.1.0

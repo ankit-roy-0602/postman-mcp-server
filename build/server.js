@@ -5,13 +5,14 @@ import { PostmanAPIClient } from './utils/postman-client.js';
 import { workspaceTools, handleWorkspaceTool } from './tools/workspace-tools.js';
 import { collectionTools, handleCollectionTool } from './tools/collection-tools.js';
 import { environmentTools, handleEnvironmentTool } from './tools/environment-tools.js';
+import { requestFolderTools, handleRequestFolderTool } from './tools/request-folder-tools.js';
 export class PostmanMCPServer {
     server;
     postmanClient;
     constructor() {
         this.server = new Server({
             name: 'postman-mcp-server',
-            version: '0.1.2',
+            version: '0.1.4',
         }, {
             capabilities: {
                 tools: {},
@@ -43,6 +44,7 @@ export class PostmanMCPServer {
                     ...workspaceTools,
                     ...collectionTools,
                     ...environmentTools,
+                    ...requestFolderTools,
                 ],
             };
         });
@@ -61,6 +63,10 @@ export class PostmanMCPServer {
                 // Environment tools
                 if (environmentTools.some(tool => tool.name === name)) {
                     return await handleEnvironmentTool(name, args, this.postmanClient);
+                }
+                // Request and Folder tools
+                if (requestFolderTools.some(tool => tool.name === name)) {
+                    return await handleRequestFolderTool(name, args, this.postmanClient);
                 }
                 throw new Error(`Unknown tool: ${name}`);
             }
