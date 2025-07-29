@@ -12,7 +12,7 @@ export class PostmanMCPServer {
     constructor() {
         this.server = new Server({
             name: 'postman-mcp-server',
-            version: '0.1.2',
+            version: '0.1.4',
         }, {
             capabilities: {
                 tools: {},
