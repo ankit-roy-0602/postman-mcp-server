@@ -4,7 +4,7 @@ import { PostmanMCPServer } from './server.js';
 
 function showHelp(): void {
   console.log(`
-Postman MCP Server v0.1.2
+Postman MCP Server v1.0.0
 
 A Model Context Protocol (MCP) server for Postman API integration.
 
@@ -38,7 +38,7 @@ https://github.com/ankit-roy-0602/postman-mcp-server
 }
 
 function showVersion(): void {
-  console.log('0.1.2');
+  console.log('1.0.0');
 }
 
 async function main(): Promise<void> {

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2025-07-30
+
 ### Added
 - **NEW**: Collection Import/Export Tools - Seamless data migration capabilities
   - `export_collection` - Export collections to Postman, Insomnia, or OpenAPI formats
@@ -38,6 +40,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **ENHANCED**: Type safety with comprehensive TypeScript interfaces for import/export
 - **ENHANCED**: Test coverage with 135+ comprehensive unit tests
 - **ENHANCED**: Jest configuration with proper ES module support
+
+### Release Notes
+- **MILESTONE**: First stable release (v1.0.0) with comprehensive API coverage
+- **COMPLETE**: Full Postman API integration with all major features
+- **PRODUCTION-READY**: Extensive testing and validation for enterprise use
 
 ## [0.1.4] - 2025-07-29
 
@@ -196,7 +203,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `jest` - Testing framework
 - `@types/*` - TypeScript type definitions
 
-[Unreleased]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.4...HEAD
+[Unreleased]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.4...v1.0.0
 [0.1.4]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.0...v0.1.2
