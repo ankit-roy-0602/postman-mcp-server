@@ -52,9 +52,15 @@ export interface ValidationResult {
 }
 
 export interface DummyDataGenerators {
-  queryParams: (url: string, method: string) => Array<{ key: string; value: string; description?: string }>;
+  queryParams: (
+    url: string,
+    method: string
+  ) => Array<{ key: string; value: string; description?: string }>;
   requestBody: (method: string, contentType?: string) => unknown;
-  headers: (method: string, hasBody?: boolean) => Array<{ key: string; value: string; description?: string }>;
+  headers: (
+    method: string,
+    hasBody?: boolean
+  ) => Array<{ key: string; value: string; description?: string }>;
   pathVariables: (url: string) => Record<string, string>;
 }
 
