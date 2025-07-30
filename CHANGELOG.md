@@ -7,6 +7,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2025-07-30
+
+### Added
+- **NEW**: Collection Import/Export Tools - Seamless data migration capabilities
+  - `export_collection` - Export collections to Postman, Insomnia, or OpenAPI formats
+  - `export_collection_with_samples` - Export with comprehensive dummy data for immediate use
+  - `export_workspace_collections` - Bulk export all collections from a workspace
+  - `validate_collection_export` - Validate collection compatibility before export
+  - `import_collection` - Import collections from JSON data with conflict resolution
+  - `import_collection_from_file` - Import collections from local files
+- **NEW**: Smart Dummy Data Generation
+  - Intelligent query parameter generation based on endpoint patterns
+  - Realistic request body generation for different content types
+  - Environment variable extraction and template generation
+  - Path variable detection and sample value generation
+  - Authentication header templates (Bearer tokens, API keys)
+- **NEW**: Multi-Format Support
+  - Postman Collection v2.1 format with full feature support
+  - Insomnia v4 export format for seamless workflow migration
+  - OpenAPI 3.0 specification generation from collections
+  - Environment template generation for all formats
+- **NEW**: Advanced Export Features
+  - Conflict resolution strategies (skip, overwrite, rename)
+  - Validation before import/export operations
+  - File system integration for local storage
+  - Bulk workspace operations
+  - Comprehensive error handling and reporting
+
+### Enhanced
+- **ENHANCED**: Format conversion utilities with intelligent data mapping
+- **ENHANCED**: Type safety with comprehensive TypeScript interfaces for import/export
+- **ENHANCED**: Test coverage with 135+ comprehensive unit tests
+- **ENHANCED**: Jest configuration with proper ES module support
+
+### Release Notes
+- **MILESTONE**: First stable release (v1.0.0) with comprehensive API coverage
+- **COMPLETE**: Full Postman API integration with all major features
+- **PRODUCTION-READY**: Extensive testing and validation for enterprise use
+
 ## [0.1.4] - 2025-07-29
 
 ### Added
@@ -164,7 +203,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `jest` - Testing framework
 - `@types/*` - TypeScript type definitions
 
-[Unreleased]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.4...HEAD
+[Unreleased]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.4...v1.0.0
 [0.1.4]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.2...v0.1.3
 [0.1.2]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.0...v0.1.2
