@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { PostmanAPIClient } from '../utils/postman-client.js';
 import { FormatConverter } from '../utils/format-converters.js';
 import { DummyDataGenerator } from '../utils/dummy-data-generator.js';
-import { ExportOptions, ImportOptions, ExportResult, ValidationResult } from '../types/import-export.js';
+import { ExportResult, ValidationResult } from '../types/import-export.js';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -312,18 +312,60 @@ export async function handleImportExportTool(
   }
 }
 
+interface ExportCollectionOptions {
+  collectionId: string;
+  format: 'postman' | 'insomnia' | 'openapi';
+  includeDummyData: boolean;
+  generateEnvironmentTemplate?: boolean;
+  outputPath?: string | undefined;
+}
+
+interface ExportWorkspaceCollectionsOptions {
+  workspaceId: string;
+  format: 'postman' | 'insomnia' | 'openapi';
+  includeDummyData: boolean;
+  outputDirectory?: string | undefined;
+}
+
+interface ValidateCollectionExportOptions {
+  collectionId: string;
+  format: 'postman' | 'insomnia' | 'openapi';
+}
+
+interface ImportCollectionOptions {
+  collectionData: string;
+  targetWorkspaceId?: string | undefined;
+  conflictResolution: 'skip' | 'overwrite' | 'rename';
+  validateBeforeImport: boolean;
+}
+
+interface ImportCollectionFromFileOptions {
+  filePath: string;
+  targetWorkspaceId?: string | undefined;
+  conflictResolution: 'skip' | 'overwrite' | 'rename';
+  validateBeforeImport: boolean;
+}
+
+interface ImportResult {
+  success: boolean;
+  collectionId?: string;
+  errors: string[];
+  warnings: string[];
+  skippedItems: string[];
+}
+
 async function exportCollection(
   client: PostmanAPIClient,
   formatConverter: FormatConverter,
   dummyDataGenerator: DummyDataGenerator,
-  options: any
+  options: ExportCollectionOptions
 ): Promise<ExportResult> {
   try {
     // Get the collection
     const collection = await client.getCollection(options.collectionId);
     
-    let exportData: any;
-    let environmentData: any;
+    let exportData: unknown;
+    let environmentData: unknown;
 
     // Convert to requested format
     switch (options.format) {
@@ -396,7 +438,7 @@ async function exportWorkspaceCollections(
   client: PostmanAPIClient,
   formatConverter: FormatConverter,
   dummyDataGenerator: DummyDataGenerator,
-  options: any
+  options: ExportWorkspaceCollectionsOptions
 ): Promise<ExportResult[]> {
   try {
     // Get all collections in the workspace
@@ -433,7 +475,7 @@ async function exportWorkspaceCollections(
 async function validateCollectionExport(
   client: PostmanAPIClient,
   formatConverter: FormatConverter,
-  options: any
+  options: ValidateCollectionExportOptions
 ): Promise<ValidationResult> {
   try {
     const collection = await client.getCollection(options.collectionId);
@@ -450,17 +492,16 @@ async function validateCollectionExport(
     }
 
     // Format-specific validation
-    let exportData: any;
     try {
       switch (options.format) {
         case 'postman':
-          exportData = formatConverter.toPostmanV21(collection, true);
+          formatConverter.toPostmanV21(collection, true);
           break;
         case 'insomnia':
-          exportData = formatConverter.toInsomniaV4(collection, true);
+          formatConverter.toInsomniaV4(collection, true);
           break;
         case 'openapi':
-          exportData = formatConverter.toOpenAPI30(collection);
+          formatConverter.toOpenAPI30(collection);
           break;
       }
     } catch (error) {
@@ -494,11 +535,11 @@ async function validateCollectionExport(
 
 async function importCollection(
   client: PostmanAPIClient,
-  options: any
-): Promise<any> {
+  options: ImportCollectionOptions
+): Promise<ImportResult> {
   try {
     // Parse the collection data
-    const collectionData = JSON.parse(options.collectionData);
+    const collectionData = JSON.parse(options.collectionData) as { info: { name: string; description?: string } };
     
     // Basic validation
     if (options.validateBeforeImport) {
@@ -517,15 +558,20 @@ async function importCollection(
         finalName = `${collectionData.info.name} (${counter})`;
         counter++;
       }
-      collectionData.info.name = finalName;
     }
 
     // Create the collection
-    const createRequest = {
-      name: finalName,
-      description: collectionData.info.description,
-      workspaceId: options.targetWorkspaceId
+    const createRequest: { name: string; description?: string; workspaceId?: string } = {
+      name: finalName
     };
+
+    if (collectionData.info.description) {
+      createRequest.description = collectionData.info.description;
+    }
+
+    if (options.targetWorkspaceId) {
+      createRequest.workspaceId = options.targetWorkspaceId;
+    }
 
     const newCollection = await client.createCollection(createRequest);
 
@@ -549,8 +595,8 @@ async function importCollection(
 
 async function importCollectionFromFile(
   client: PostmanAPIClient,
-  options: any
-): Promise<any> {
+  options: ImportCollectionFromFileOptions
+): Promise<ImportResult> {
   try {
     // Read the file
     if (!fs.existsSync(options.filePath)) {

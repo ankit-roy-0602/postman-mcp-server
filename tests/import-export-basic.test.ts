@@ -19,7 +19,7 @@ describe('Import/Export Basic Functionality', () => {
     });
 
     it('should generate request body for POST requests', () => {
-      const body = generator.requestBody('POST', 'application/json');
+      const body = generator.requestBody('POST', 'application/json') as { mode: string; raw: string };
       
       expect(body).toBeDefined();
       expect(body.mode).toBe('raw');

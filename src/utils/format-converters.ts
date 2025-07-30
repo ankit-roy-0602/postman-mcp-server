@@ -35,7 +35,7 @@ export class FormatConverter {
 
   // Convert to Insomnia v4 format
   toInsomniaV4(collection: PostmanCollectionDetail, includeDummyData: boolean = true): InsomniaExportData {
-    const resources: any[] = [];
+    const resources: unknown[] = [];
     const workspaceId = this.generateId();
 
     // Create workspace
@@ -94,7 +94,7 @@ export class FormatConverter {
           description: 'API Server'
         }
       ],
-      paths: {},
+      paths: {} as Record<string, unknown>,
       components: {
         schemas: {},
         securitySchemes: {
@@ -115,7 +115,7 @@ export class FormatConverter {
     return openapi;
   }
 
-  private processItems(items: Array<PostmanRequest | PostmanFolder>, includeDummyData: boolean): any[] {
+  private processItems(items: Array<PostmanRequest | PostmanFolder>, includeDummyData: boolean): unknown[] {
     return items.map(item => {
       if ('request' in item) {
         // It's a request
@@ -131,7 +131,7 @@ export class FormatConverter {
     });
   }
 
-  private enhanceRequest(request: PostmanRequest, includeDummyData: boolean): any {
+  private enhanceRequest(request: PostmanRequest, includeDummyData: boolean): unknown {
     if (!includeDummyData) {
       return request;
     }
@@ -176,7 +176,13 @@ export class FormatConverter {
     // Enhance body
     if (['POST', 'PUT', 'PATCH'].includes(method) && !enhanced.request.body) {
       const contentType = existingHeaders.find(h => h.key.toLowerCase() === 'content-type')?.value || 'application/json';
-      enhanced.request.body = this.dummyDataGenerator.requestBody(method, contentType);
+      const generatedBody = this.dummyDataGenerator.requestBody(method, contentType);
+      if (generatedBody && typeof generatedBody === 'object' && 'mode' in generatedBody) {
+        const bodyObj = generatedBody as { mode: string; raw?: string };
+        if (bodyObj.mode === 'raw' || bodyObj.mode === 'formdata' || bodyObj.mode === 'urlencoded' || bodyObj.mode === 'binary' || bodyObj.mode === 'graphql') {
+          enhanced.request.body = bodyObj as { mode: 'raw' | 'formdata' | 'urlencoded' | 'binary' | 'graphql'; raw?: string };
+        }
+      }
     }
 
     return enhanced;
@@ -184,7 +190,7 @@ export class FormatConverter {
 
   private processItemsForInsomnia(
     items: Array<PostmanRequest | PostmanFolder>, 
-    resources: any[], 
+    resources: unknown[], 
     parentId: string, 
     includeDummyData: boolean
   ): void {
@@ -195,7 +201,7 @@ export class FormatConverter {
         const method = item.request.method;
         const url = typeof item.request.url === 'string' ? item.request.url : (item.request.url?.raw || '');
 
-        const insomniaRequest: any = {
+        const insomniaRequest: Record<string, unknown> = {
           _id: requestId,
           _type: 'request',
           name: item.name,
@@ -255,7 +261,7 @@ export class FormatConverter {
           openapi.paths[path] = {};
         }
 
-        const pathItem = openapi.paths[path];
+        const pathItem = openapi.paths[path] as Record<string, unknown>;
         if (pathItem) {
           pathItem[method] = {
             summary: item.name,
@@ -283,9 +289,9 @@ export class FormatConverter {
 
           // Add request body for POST/PUT/PATCH
           if (['post', 'put', 'patch'].includes(method)) {
-            const methodItem = pathItem[method];
+            const methodItem = pathItem[method] as Record<string, unknown>;
             if (methodItem) {
-              methodItem.requestBody = {
+              methodItem['requestBody'] = {
                 content: {
                   'application/json': {
                     schema: {
@@ -328,11 +334,15 @@ export class FormatConverter {
     }
   }
 
-  private processHeadersForInsomnia(headers: any[], method: string, includeDummyData: boolean): any[] {
+  private processHeadersForInsomnia(headers: unknown[], method: string, includeDummyData: boolean): unknown[] {
     if (!includeDummyData) return headers;
 
     const generatedHeaders = this.dummyDataGenerator.headers(method, ['POST', 'PUT', 'PATCH'].includes(method));
-    const existingHeaderKeys = new Set(headers.map(h => h.key?.toLowerCase()).filter(Boolean));
+    const existingHeaderKeys = new Set(
+      headers
+        .map(h => (h && typeof h === 'object' && 'key' in h && typeof h.key === 'string') ? h.key.toLowerCase() : null)
+        .filter(Boolean)
+    );
     
     const enhancedHeaders = [...headers];
     generatedHeaders.forEach(header => {
@@ -349,7 +359,7 @@ export class FormatConverter {
     return enhancedHeaders;
   }
 
-  private processBodyForInsomnia(body: any, method: string, includeDummyData: boolean): any {
+  private processBodyForInsomnia(body: unknown, method: string, includeDummyData: boolean): unknown {
     if (!includeDummyData || !['POST', 'PUT', 'PATCH'].includes(method)) {
       return body || {};
     }
@@ -357,11 +367,14 @@ export class FormatConverter {
     if (body) return body;
 
     const generatedBody = this.dummyDataGenerator.requestBody(method);
-    if (generatedBody?.mode === 'raw') {
-      return {
-        mimeType: 'application/json',
-        text: generatedBody.raw
-      };
+    if (generatedBody && typeof generatedBody === 'object' && 'mode' in generatedBody) {
+      const bodyObj = generatedBody as { mode: string; raw?: string };
+      if (bodyObj.mode === 'raw') {
+        return {
+          mimeType: 'application/json',
+          text: bodyObj.raw || ''
+        };
+      }
     }
 
     return {
@@ -374,8 +387,8 @@ export class FormatConverter {
     };
   }
 
-  private convertToInsomniaEnvironment(envVars: any[]): Record<string, any> {
-    const data: Record<string, any> = {};
+  private convertToInsomniaEnvironment(envVars: Array<{ key: string; value: string }>): Record<string, unknown> {
+    const data: Record<string, unknown> = {};
     envVars.forEach(envVar => {
       data[envVar.key] = envVar.value;
     });
@@ -388,13 +401,13 @@ export class FormatConverter {
       return urlObj.pathname || '/';
     } catch {
       // If URL parsing fails, try to extract path manually
-      const pathMatch = url.match(/^(?:https?:\/\/[^\/]+)?(\/.*)$/);
+      const pathMatch = url.match(/^(?:https?:\/\/[^/]+)?(\/.*)?$/);
       return pathMatch && pathMatch[1] ? pathMatch[1].split('?')[0] || '/' : '/';
     }
   }
 
-  private extractParametersForOpenAPI(request: PostmanRequest): any[] {
-    const parameters: any[] = [];
+  private extractParametersForOpenAPI(request: PostmanRequest): unknown[] {
+    const parameters: unknown[] = [];
     const url = typeof request.request.url === 'string' ? request.request.url : (request.request.url?.raw || '');
 
     // Extract path parameters
@@ -414,7 +427,7 @@ export class FormatConverter {
     // Extract query parameters
     if (typeof request.request.url === 'object' && request.request.url?.query) {
       request.request.url.query.forEach(param => {
-        const parameter: any = {
+        const parameter: Record<string, unknown> = {
           name: param.key,
           in: 'query',
           required: false,
@@ -425,7 +438,7 @@ export class FormatConverter {
         };
         
         if ('description' in param && param.description) {
-          parameter.description = param.description;
+          parameter['description'] = param.description;
         }
         
         parameters.push(parameter);

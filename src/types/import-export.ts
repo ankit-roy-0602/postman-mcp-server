@@ -18,13 +18,13 @@ export interface DummyDataConfig {
   generateRequestBodies?: boolean;
   generateHeaders?: boolean;
   useRealisticValues?: boolean;
-  customTemplates?: Record<string, any>;
+  customTemplates?: Record<string, unknown>;
 }
 
 export interface ExportResult {
   success: boolean;
-  collectionData?: any;
-  environmentData?: any;
+  collectionData?: unknown;
+  environmentData?: unknown;
   filePath?: string;
   errors: string[];
   warnings: string[];
@@ -53,7 +53,7 @@ export interface ValidationResult {
 
 export interface DummyDataGenerators {
   queryParams: (url: string, method: string) => Array<{ key: string; value: string; description?: string }>;
-  requestBody: (method: string, contentType?: string) => any;
+  requestBody: (method: string, contentType?: string) => unknown;
   headers: (method: string, hasBody?: boolean) => Array<{ key: string; value: string; description?: string }>;
   pathVariables: (url: string) => Record<string, string>;
 }
@@ -79,14 +79,14 @@ export interface CollectionExportData {
       patch: number;
     };
   };
-  item: any[];
+  item: unknown[];
   variable?: Array<{
     key: string;
     value: string;
     type?: string;
   }>;
-  auth?: any;
-  event?: any[];
+  auth?: unknown;
+  event?: unknown[];
 }
 
 export interface InsomniaExportData {
@@ -94,7 +94,7 @@ export interface InsomniaExportData {
   __export_format: number;
   __export_date: string;
   __export_source: string;
-  resources: any[];
+  resources: unknown[];
 }
 
 export interface OpenAPIExportData {
@@ -108,9 +108,9 @@ export interface OpenAPIExportData {
     url: string;
     description?: string;
   }>;
-  paths: Record<string, any>;
+  paths: Record<string, unknown>;
   components?: {
-    schemas?: Record<string, any>;
-    securitySchemes?: Record<string, any>;
+    schemas?: Record<string, unknown>;
+    securitySchemes?: Record<string, unknown>;
   };
 }

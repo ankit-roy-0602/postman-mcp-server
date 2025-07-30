@@ -69,7 +69,7 @@ export class DummyDataGenerator implements DummyDataGenerators {
     return params;
   }
 
-  requestBody(method: string, contentType: string = 'application/json'): any {
+  requestBody(method: string, contentType: string = 'application/json'): unknown {
     if (!this.config.generateRequestBodies) return undefined;
     if (['GET', 'HEAD', 'DELETE'].includes(method)) return undefined;
 
@@ -224,8 +224,8 @@ export class DummyDataGenerator implements DummyDataGenerators {
     return `Parameter: ${paramName}`;
   }
 
-  private generateJSONBody(method: string): any {
-    const body: any = {
+  private generateJSONBody(method: string): unknown {
+    const body: { mode: string; options: { raw: { language: string } }; raw?: string } = {
       mode: 'raw',
       options: {
         raw: {
@@ -234,7 +234,7 @@ export class DummyDataGenerator implements DummyDataGenerators {
       }
     };
 
-    let jsonData: any = {};
+    let jsonData: Record<string, unknown> = {};
 
     switch (method) {
       case 'POST':
@@ -312,7 +312,7 @@ export class DummyDataGenerator implements DummyDataGenerators {
   }
 
   // Generate environment variables from collection
-  generateEnvironmentVariables(collectionData: any): Array<{ key: string; value: string; type?: string; description?: string }> {
+  generateEnvironmentVariables(collectionData: unknown): Array<{ key: string; value: string; type?: string; description?: string }> {
     const variables = new Set<string>();
     const envVars: Array<{ key: string; value: string; type?: string; description?: string }> = [];
 
@@ -332,7 +332,7 @@ export class DummyDataGenerator implements DummyDataGenerators {
     return envVars;
   }
 
-  private extractVariablesFromCollection(item: any, variables: Set<string>): void {
+  private extractVariablesFromCollection(item: unknown, variables: Set<string>): void {
     if (Array.isArray(item)) {
       item.forEach(subItem => this.extractVariablesFromCollection(subItem, variables));
       return;

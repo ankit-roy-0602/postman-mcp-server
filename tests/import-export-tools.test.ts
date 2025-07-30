@@ -379,7 +379,7 @@ describe('DummyDataGenerator', () => {
 
   describe('requestBody', () => {
     it('should generate JSON body for POST requests', () => {
-      const body = generator.requestBody('POST', 'application/json');
+      const body = generator.requestBody('POST', 'application/json') as { mode: string; raw: string };
       
       expect(body).toBeDefined();
       expect(body.mode).toBe('raw');
@@ -391,7 +391,7 @@ describe('DummyDataGenerator', () => {
     });
 
     it('should generate form data for multipart requests', () => {
-      const body = generator.requestBody('POST', 'multipart/form-data');
+      const body = generator.requestBody('POST', 'multipart/form-data') as { mode: string; formdata: unknown[] };
       
       expect(body).toBeDefined();
       expect(body.mode).toBe('formdata');
@@ -530,7 +530,7 @@ describe('FormatConverter', () => {
     it('should include dummy data when requested', () => {
       const result = converter.toPostmanV21(mockCollection, true);
       
-      expect(result.item[0].request.header.length).toBeGreaterThan(0);
+      expect((result.item[0] as any).request.header.length).toBeGreaterThan(0);
     });
   });
 
@@ -547,8 +547,8 @@ describe('FormatConverter', () => {
     it('should create workspace and environment resources', () => {
       const result = converter.toInsomniaV4(mockCollection, true);
       
-      const workspace = result.resources.find(r => r._type === 'workspace');
-      const environment = result.resources.find(r => r._type === 'environment');
+      const workspace = result.resources.find(r => (r as any)._type === 'workspace') as any;
+      const environment = result.resources.find(r => (r as any)._type === 'environment') as any;
       
       expect(workspace).toBeDefined();
       expect(environment).toBeDefined();
