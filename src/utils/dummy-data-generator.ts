@@ -323,9 +323,7 @@ export class DummyDataGenerator implements DummyDataGenerators {
     return body;
   }
 
-  private generateFormData(
-    isMultipart: boolean = false
-  ): Array<{
+  private generateFormData(isMultipart: boolean = false): Array<{
     key: string;
     value: string;
     type?: string;
@@ -375,9 +373,7 @@ export class DummyDataGenerator implements DummyDataGenerators {
   }
 
   // Generate environment variables from collection
-  generateEnvironmentVariables(
-    collectionData: unknown
-  ): Array<{
+  generateEnvironmentVariables(collectionData: unknown): Array<{
     key: string;
     value: string;
     type?: string;
