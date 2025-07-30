@@ -101,7 +101,8 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
-    
+    permissions:
+      contents: read
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
