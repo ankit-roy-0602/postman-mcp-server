@@ -6,6 +6,7 @@ import { workspaceTools, handleWorkspaceTool } from './tools/workspace-tools.js'
 import { collectionTools, handleCollectionTool } from './tools/collection-tools.js';
 import { environmentTools, handleEnvironmentTool } from './tools/environment-tools.js';
 import { requestFolderTools, handleRequestFolderTool } from './tools/request-folder-tools.js';
+import { importExportTools, handleImportExportTool } from './tools/import-export-tools.js';
 export class PostmanMCPServer {
     server;
     postmanClient;
@@ -45,6 +46,7 @@ export class PostmanMCPServer {
                     ...collectionTools,
                     ...environmentTools,
                     ...requestFolderTools,
+                    ...importExportTools,
                 ],
             };
         });
@@ -67,6 +69,10 @@ export class PostmanMCPServer {
                 // Request and Folder tools
                 if (requestFolderTools.some(tool => tool.name === name)) {
                     return await handleRequestFolderTool(name, args, this.postmanClient);
+                }
+                // Import/Export tools
+                if (importExportTools.some(tool => tool.name === name)) {
+                    return await handleImportExportTool(name, args, this.postmanClient);
                 }
                 throw new Error(`Unknown tool: ${name}`);
             }
