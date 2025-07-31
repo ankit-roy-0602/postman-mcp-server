@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2025-07-30
+
+### Enhanced
+- **ENHANCED**: DummyDataGenerator method signatures simplified for improved usability
+- **ENHANCED**: Code refactoring for improved readability and consistency
+- **ENHANCED**: Import/export tools with enhanced type safety and additional options
+- **IMPROVED**: Method signatures in DummyDataGenerator for better developer experience
+- **IMPROVED**: Overall code structure and maintainability
+
+### Fixed
+- **FIXED**: Method signature complexity in dummy data generation
+- **FIXED**: Code consistency issues across the codebase
+- **FIXED**: GitHub release workflow compatibility with existing tags
+
 ## [1.0.0] - 2025-07-30
 
 ### Added
@@ -203,7 +217,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `jest` - Testing framework
 - `@types/*` - TypeScript type definitions
 
-[Unreleased]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.4...v1.0.0
 [0.1.4]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.2...v0.1.3
