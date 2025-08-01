@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Mock Server Integration**: Complete AI-powered mock server creation and management
+  - `list_mock_servers` - List all mock servers in your account
+  - `get_mock_server` - Get detailed mock server information and configuration
+  - `create_mock_server` - Create new mock servers from collections with advanced configuration
+  - `create_ai_mock_server` - AI-powered mock server creation with realistic data generation and error scenarios
+  - `update_mock_server` - Update mock server settings and configuration
+  - `delete_mock_server` - Remove mock servers
+  - `get_mock_server_call_logs` - View mock server usage and call history
+- Enhanced PostmanAPIClient with comprehensive mock server methods
+- AI-powered realistic data generation for mock responses
+- Automatic error response generation (400, 401, 404, 500) for comprehensive testing
+- Mock server configuration options including response delays, header matching, and wildcards
+- Comprehensive test coverage for all mock server functionality
+
 ## [1.0.0] - 2025-07-30
 
 ### Added
