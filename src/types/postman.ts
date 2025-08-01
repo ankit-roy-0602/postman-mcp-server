@@ -107,6 +107,7 @@ export interface PostmanRequest {
   name: string;
   description?: string;
   request: PostmanRequestDetails;
+  response?: MockServerExample[];
 }
 
 export interface PostmanFolder {
@@ -197,4 +198,121 @@ export interface MoveRequestRequest {
   requestId: string;
   targetFolderId?: string;
   targetCollectionId?: string;
+}
+
+// Mock Server Types
+export interface PostmanMockServer {
+  id: string;
+  name: string;
+  url: string;
+  collection: string;
+  environment?: string;
+  private: boolean;
+  versionTag?: string;
+  createdAt: string;
+  updatedAt: string;
+  uid: string;
+  owner: string;
+  config?: {
+    headers?: Array<{
+      key: string;
+      value: string;
+    }>;
+    matchBody?: boolean;
+    matchQueryParams?: boolean;
+    matchWildcards?: boolean;
+    delay?: {
+      type: 'fixed' | 'random';
+      preset?: 'low' | 'medium' | 'high';
+      value?: number;
+    };
+  };
+}
+
+export interface MockServerExample {
+  id?: string;
+  name: string;
+  request: {
+    method: string;
+    url: string;
+    headers?: Array<{
+      key: string;
+      value: string;
+    }>;
+    body?: PostmanRequestDetails['body'];
+  };
+  response: {
+    name: string;
+    status: string;
+    code: number;
+    headers?: Array<{
+      key: string;
+      value: string;
+    }>;
+    body?: string;
+    _postman_previewlanguage?: string;
+  };
+}
+
+export interface CreateMockServerRequest {
+  name: string;
+  collectionId: string;
+  environmentId?: string;
+  private?: boolean;
+  versionTag?: string;
+  config?: {
+    headers?: Array<{
+      key: string;
+      value: string;
+    }>;
+    matchBody?: boolean;
+    matchQueryParams?: boolean;
+    matchWildcards?: boolean;
+    delay?: {
+      type: 'fixed' | 'random';
+      preset?: 'low' | 'medium' | 'high';
+      value?: number;
+    };
+  };
+}
+
+export interface UpdateMockServerRequest {
+  name?: string;
+  environmentId?: string;
+  private?: boolean;
+  config?: {
+    headers?: Array<{
+      key: string;
+      value: string;
+    }>;
+    matchBody?: boolean;
+    matchQueryParams?: boolean;
+    matchWildcards?: boolean;
+    delay?: {
+      type: 'fixed' | 'random';
+      preset?: 'low' | 'medium' | 'high';
+      value?: number;
+    };
+  };
+}
+
+export interface MockServerCallLog {
+  id: string;
+  request: {
+    method: string;
+    url: string;
+    headers: Record<string, string>;
+    body?: string;
+  };
+  response: {
+    code: number;
+    status: string;
+    headers: Record<string, string>;
+    body?: string;
+  };
+  servedBy?: {
+    mockId?: string;
+    exampleId?: string;
+  };
+  timestamp: string;
 }

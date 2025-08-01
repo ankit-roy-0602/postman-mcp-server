@@ -57,6 +57,11 @@
 - **"Create a folder structure for microservices"** - Enterprise-ready organization
 - **"Move all authentication requests to a separate folder"** - Instant reorganization
 
+### 🎭 **AI-Powered Mock Server Creation**
+- **"Create a mock server for my user API with realistic data"** - Instant mock endpoints with intelligent responses
+- **"Generate mock responses with error scenarios for testing"** - Complete testing scenarios including 400, 401, 404, 500 responses
+- **"Set up a mock server with dynamic data and response delays"** - Production-like mock behavior for realistic testing
+
 ## 🚀 Quick Start (60 seconds to API mastery)
 
 ### 1. Install Globally
@@ -531,6 +536,102 @@ Reorganize requests between folders
 
 </details>
 
+<details>
+<summary><strong>🎭 Mock Server Tools</strong></summary>
+
+#### `list_mock_servers`
+Get all your mock servers instantly
+```json
+{ "name": "list_mock_servers", "arguments": {} }
+```
+
+#### `get_mock_server`
+Detailed mock server information and configuration
+```json
+{ "name": "get_mock_server", "arguments": { "mockId": "mock-server-id" } }
+```
+
+#### `create_mock_server`
+Create new mock servers from collections
+```json
+{
+  "name": "create_mock_server",
+  "arguments": {
+    "name": "User API Mock",
+    "collectionId": "collection-id",
+    "environmentId": "environment-id",
+    "private": false,
+    "config": {
+      "headers": [
+        { "key": "Content-Type", "value": "application/json" }
+      ],
+      "matchBody": true,
+      "matchQueryParams": true,
+      "delay": {
+        "type": "fixed",
+        "preset": "medium"
+      }
+    }
+  }
+}
+```
+
+#### `create_ai_mock_server`
+Create AI-powered mock servers with intelligent data generation
+```json
+{
+  "name": "create_ai_mock_server",
+  "arguments": {
+    "name": "Smart User API Mock",
+    "collectionId": "collection-id",
+    "generateRealisticData": true,
+    "includeErrorResponses": true,
+    "responseDelay": "medium",
+    "private": false
+  }
+}
+```
+
+#### `update_mock_server`
+Modify mock server settings and configuration
+```json
+{
+  "name": "update_mock_server",
+  "arguments": {
+    "mockId": "mock-server-id",
+    "name": "Updated Mock Server",
+    "private": true,
+    "config": {
+      "matchBody": false,
+      "delay": {
+        "type": "random",
+        "preset": "low"
+      }
+    }
+  }
+}
+```
+
+#### `delete_mock_server`
+Remove mock servers
+```json
+{ "name": "delete_mock_server", "arguments": { "mockId": "mock-server-id" } }
+```
+
+#### `get_mock_server_call_logs`
+View mock server usage and call history
+```json
+{
+  "name": "get_mock_server_call_logs",
+  "arguments": {
+    "mockId": "mock-server-id",
+    "limit": 50
+  }
+}
+```
+
+</details>
+
 ## 🛠️ Development
 
 ### Setup Development Environment
@@ -565,9 +666,9 @@ See our [Contributing Guide](CONTRIBUTING.md) for details.
 - [x] **Advanced Request Creation**: AI-powered request generation with headers, body, and authentication
 - [x] **Folder Organization**: Hierarchical folder structures for better API organization
 - [x] **Request Movement**: Move requests between folders and collections seamlessly
+- [x] **Mock Server Integration**: AI-powered mock server creation with realistic data generation
 
 ### 🚀 **Coming Soon**
-- [ ] **Mock Server Integration**: AI-powered mock server creation
 - [ ] **Collection Import/Export**: Seamless data migration tools
 - [ ] **Advanced Search**: Find anything across your Postman workspace
 

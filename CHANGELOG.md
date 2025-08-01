@@ -7,6 +7,62 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2025-01-08
+
+### Added
+- **Mock Server Integration**: Complete AI-powered mock server creation and management
+  - `list_mock_servers` - List all mock servers in your account
+  - `get_mock_server` - Get detailed mock server information and configuration
+  - `create_mock_server` - Create new mock servers from collections with advanced configuration
+  - `create_ai_mock_server` - AI-powered mock server creation with realistic data generation and error scenarios
+  - `update_mock_server` - Update mock server settings and configuration
+  - `delete_mock_server` - Remove mock servers
+  - `get_mock_server_call_logs` - View mock server usage and call history
+- Enhanced PostmanAPIClient with comprehensive mock server methods
+- AI-powered realistic data generation for mock responses
+- Automatic error response generation (400, 401, 404, 500) for comprehensive testing
+- Mock server configuration options including response delays, header matching, and wildcards
+- Comprehensive test coverage for all mock server functionality
+
+### Enhanced
+- **ENHANCED**: Postman API client with full mock server lifecycle management
+- **ENHANCED**: AI-powered data generation for realistic mock responses
+- **ENHANCED**: Error handling and validation for mock server operations
+- **ENHANCED**: Test coverage with comprehensive mock server testing
+
+### Release Notes
+- **FEATURE**: Major mock server integration release
+- **AI-POWERED**: Intelligent mock server creation with realistic data
+- **PRODUCTION-READY**: Enterprise-grade mock server management
+
+## [1.1.0] - 2025-01-08
+
+### Added
+- **Mock Server Integration**: Complete AI-powered mock server creation and management
+  - `list_mock_servers` - List all mock servers in your account
+  - `get_mock_server` - Get detailed mock server information and configuration
+  - `create_mock_server` - Create new mock servers from collections with advanced configuration
+  - `create_ai_mock_server` - AI-powered mock server creation with realistic data generation and error scenarios
+  - `update_mock_server` - Update mock server settings and configuration
+  - `delete_mock_server` - Remove mock servers
+  - `get_mock_server_call_logs` - View mock server usage and call history
+- Enhanced PostmanAPIClient with comprehensive mock server methods
+- AI-powered realistic data generation for mock responses
+- Automatic error response generation (400, 401, 404, 500) for comprehensive testing
+- Mock server configuration options including response delays, header matching, and wildcards
+- Comprehensive test coverage for all mock server functionality
+
+### Enhanced
+- **ENHANCED**: Postman API client with full mock server lifecycle management
+- **ENHANCED**: AI-powered data generation for realistic mock responses
+- **ENHANCED**: Error handling and validation for mock server operations
+- **ENHANCED**: Test coverage with comprehensive mock server testing
+
+### Release Notes
+- **FEATURE**: Major mock server integration release
+- **AI-POWERED**: Intelligent mock server creation with realistic data
+- **PRODUCTION-READY**: Enterprise-grade mock server management
+
 ## [1.0.0] - 2025-07-30
 
 ### Added
@@ -203,7 +259,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `jest` - Testing framework
 - `@types/*` - TypeScript type definitions
 
-[Unreleased]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v1.1.0...v1.2.0
+[1.1.0]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.4...v1.0.0
 [0.1.4]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.3...v0.1.4
 [0.1.3]: https://github.com/ankit-roy-0602/postman-mcp-server/compare/v0.1.2...v0.1.3
