@@ -10,6 +10,7 @@ import { collectionTools, handleCollectionTool } from './tools/collection-tools.
 import { environmentTools, handleEnvironmentTool } from './tools/environment-tools.js';
 import { requestFolderTools, handleRequestFolderTool } from './tools/request-folder-tools.js';
 import { importExportTools, handleImportExportTool } from './tools/import-export-tools.js';
+import { mockServerTools, handleMockServerTool } from './tools/mock-server-tools.js';
 
 export class PostmanMCPServer {
   private server: Server;
@@ -56,6 +57,7 @@ export class PostmanMCPServer {
           ...environmentTools,
           ...requestFolderTools,
           ...importExportTools,
+          ...mockServerTools,
         ],
       };
     });
@@ -88,6 +90,11 @@ export class PostmanMCPServer {
         // Import/Export tools
         if (importExportTools.some(tool => tool.name === name)) {
           return await handleImportExportTool(name, args, this.postmanClient);
+        }
+
+        // Mock Server tools
+        if (mockServerTools.some(tool => tool.name === name)) {
+          return await handleMockServerTool(name, args, this.postmanClient);
         }
 
         throw new Error(`Unknown tool: ${name}`);
