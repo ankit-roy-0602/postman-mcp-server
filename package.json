@@ -1,7 +1,7 @@
 {
   "name": "postman-mcp-server",
-  "version": "1.0.0",
-  "description": "A Model Context Protocol (MCP) server for Postman API integration, providing tools for workspace, collection, request, environment, and folder management",
+  "version": "1.2.0",
+  "description": "A Model Context Protocol (MCP) server for Postman API integration, providing tools for workspace, collection, request, environment, folder, and mock server management with AI-powered features",
   "main": "build/index.js",
   "type": "module",
   "bin": {
@@ -34,6 +34,10 @@
     "workspace",
     "collection",
     "environment",
+    "mock-server",
+    "mocking",
+    "api-mocking",
+    "ai-powered",
     "ai",
     "artificial-intelligence",
     "must-have-mcp-tool",
